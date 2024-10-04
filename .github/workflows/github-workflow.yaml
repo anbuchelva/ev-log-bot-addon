@@ -1,0 +1,27 @@
+name: Run Python Script
+
+on:
+  push:
+    branches:
+      - main # Change this to your desired branch
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Specify the Python version you want
+
+      - name: Run script with environment variables
+        env:
+          scooter_id: ${{ secrets.SCOOTER_ID }}
+          api_token: ${{ secrets.API_TOKEN }}
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          python3 main.py
