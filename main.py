@@ -43,7 +43,7 @@ def update_ghseet_data(rides):
 
     # Extract dictionary values for new IDs
     new_ride_data = sorted([ride for ride in rides if ride["id"] in new_ids], key=lambda x: x["id"])
-    print("New ride data:", new_ride_data)
+    # print("New ride data:", new_ride_data)
 
     if not new_ride_data:  # Check if there are new rides to send
         print("No new ride data to send.")
@@ -61,7 +61,7 @@ def update_ghseet_data(rides):
             response.raise_for_status()  # Raise an error for bad responses
             print(f"Response from Google Apps Script for ride ID {ride['id']}: {response.text}")
         except requests.exceptions.RequestException as e:
-            print(f"Request error for ride ID {ride['id']}: {e}")
+            print(f"Request error for ride ID {ride['id']}")
 
 
 ride_data = get_ride_details(scooter_id, api_token, 20, "desc")
