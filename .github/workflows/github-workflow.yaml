@@ -18,6 +18,10 @@ jobs:
         with:
           python-version: '3.x' # Specify the Python version you want
 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Run script with environment variables
         env:
           scooter_id: ${{ secrets.SCOOTER_ID }}
