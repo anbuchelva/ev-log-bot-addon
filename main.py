@@ -9,7 +9,6 @@ load_dotenv()
 scooter_id = os.getenv("scooter_id")
 api_token = os.getenv("api_token")
 webhook_url = os.getenv("webhook_url")
-ride_data_json = "ride_data.json"
 
 
 def get_ride_details(scooter_id, api_token, limit=None, sort_order="asc"):
@@ -52,16 +51,16 @@ def update_ghseet_data(rides):
     telegram_alert = True
 
     for ride in new_ride_data:
-        data = json.dumps(ride)  # Serialize one ride at a time
+        data = json.dumps(ride)
         encoded_data = base64.b64encode(data.encode()).decode()
-        params = {"data": encoded_data, "telegramAlert": str(telegram_alert).lower()}
+        params = {"rideData": encoded_data, "telegramAlert": str(telegram_alert).lower()}
 
         try:
-            response = requests.get(webhook_url, params=params)
-            response.raise_for_status()  # Raise an error for bad responses
-            print(f"Response from Google Apps Script for ride ID {ride['id']}: {response.text}")
+            response = requests.post(webhook_url, json=params)
+            response.raise_for_status()
+            print(f"Response from Google Apps Script for ride ID {ride['id']} {response.text}")
         except requests.exceptions.RequestException as e:
-            print(f"Request error for ride ID {ride['id']}")
+            print(f"Request error for ride ID {ride['id']}: {e}")
 
 
 ride_data = get_ride_details(scooter_id, api_token, 20, "desc")
