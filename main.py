@@ -60,7 +60,7 @@ def update_ghseet_data(rides):
             response.raise_for_status()
             print(f"Response from Google Apps Script for ride ID {ride['id']} {response.text}")
         except requests.exceptions.RequestException as e:
-            print(f"Request error for ride ID {ride['id']}: {e}")
+            print(f"Request error for ride ID {ride['id']}")
 
 
 ride_data = get_ride_details(scooter_id, api_token, 20, "desc")
